@@ -1,17 +1,10 @@
 var pdfFiller   = require('pdffiller');
+var express = require('express');
+
+var app = express();
 
 var sourcePDF = "pan.pdf";
 var destinationPDF =  "pann.pdf";
-var data = {
-    "last_name" : "John",
-    "first_name" : "Doe",
-    "date" : "Jan 1, 2013",
-    "football" : "Off",
-    "baseball" : "Yes",
-    "basketball" : "Off",
-    "hockey" : "Yes",
-    "nascar" : "Off"
-};
 var data = {
     'AO_Code' : '555' +' ' + 'ww'+' ' + '6'+' ' + '6',
     'last_name' : 'Dash',
@@ -47,7 +40,16 @@ var data = {
 
 };
 
-  pdfFiller.fillForm( sourcePDF, destinationPDF, data, function(err) {
-    if (err) throw err;
-    console.log("In callback (we're done).");
-});
+app.get('/', (req, res) => {
+    var shouldFlatten = false;
+
+    pdfFiller.fillForm( sourcePDF, destinationPDF, data, shouldFlatten, function(err) {
+        if (err) res.send(err);
+        console.log("In callback (we're done).");
+        res.send('pann.pdf');
+    });
+})
+
+
+
+app.listen(3000, () => console.log(`Example app listening at http://localhost:3000`))
