@@ -1,5 +1,6 @@
 var pdfFiller   = require('pdffiller');
 var express = require('express');
+const pdftk = require('node-pdftk');
 
 var app = express();
 
@@ -40,16 +41,23 @@ var data = {
 
 };
 
-app.get('/', (req, res) => {
-    var shouldFlatten = false;
 
-    pdfFiller.fillForm( sourcePDF, destinationPDF, data, shouldFlatten, function(err) {
-        if (err) res.send(err);
-        console.log("In callback (we're done).");
-        res.send('pann.pdf');
+
+app.get('/', async (req, res) => {
+    pdftk
+    .input('./pan.pdf')
+    .fillForm(data)
+    .output()
+    .then(buf => {
+        res.type('application/pdf'); // If you omit this line, file will download
+        res.send(buf);
+    })
+    .catch(err => {
+        // handle errors
     });
+    
 })
 
+var port = process.env.PORT || 3000
 
-
-app.listen(process.env.PORT, () => console.log(`Example app listening at http://localhost:${process.env.PORT}`))
+app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
