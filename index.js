@@ -14,7 +14,7 @@ app.get('/', async (req, res) => {
     
 });
 
-app.post('/generatePdf', (req, res) => {
+app.post('/generatePdf/:id', (req, res) => {
     const data = JSON.parse(req.body.data);
     console.log(data);
     pdftk
