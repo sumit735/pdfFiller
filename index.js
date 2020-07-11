@@ -30,6 +30,22 @@ app.post('/generatePdf/:id', (req, res) => {
     });
 });
 
+app.post('/generateCSFPdf/:id', (req, res) => {
+    const data = JSON.parse(req.body.data);
+    console.log(data);
+    pdftk
+    .input('./panCSF.pdf')
+    .fillForm(data)
+    .output()
+    .then(buf => {
+        res.type('application/pdf'); // If you omit this line, file will download
+        res.send(buf);
+    })
+    .catch(err => {
+        
+    });
+});
+
 var port = process.env.PORT || 3000
 
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
