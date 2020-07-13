@@ -36,6 +36,7 @@ app.post('/generateCSFPdf/:id', (req, res) => {
     pdftk
     .input('./panCSF.pdf')
     .fillForm(data)
+    .needAppearances()
     .output()
     .then(buf => {
         res.type('application/pdf'); // If you omit this line, file will download
