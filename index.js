@@ -15,6 +15,7 @@ app.get('/', async (req, res) => {
 });
 
 app.post('/generatePdf/:id', (req, res) => {
+    console.log(req.body.data);
     const data = JSON.parse(req.body.data);
     console.log(data);
     pdftk
@@ -31,6 +32,7 @@ app.post('/generatePdf/:id', (req, res) => {
 });
 
 app.post('/generateCSFPdf/:id', (req, res) => {
+    console.log(req.body);
     const data = JSON.parse(req.body.data);
     console.log(data);
     pdftk
